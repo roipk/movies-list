@@ -1,11 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import MovieDetails from './Components/MovieDetails';
+import React from "react";
+import "./App.css";
+import MovieDetails from "./Components/MovieDetails";
 
 function App() {
   return (
-    <MovieDetails/>
+    <MovieDetails />
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
