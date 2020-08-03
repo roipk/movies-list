@@ -6,19 +6,20 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import TestData from "./TestData";
+import { Container, Row, Col } from "react-bootstrap";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
 import MovieDetails from "./MovieDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    overflow: "hidden",
+    //display: "flex",
+    //flexWrap: "wrap",
+    //justifyContent: "center",
+    //overflow: "hidden",
     backgroundColor: "#445565",
   },
   gridList: {
-    width: 1000,
+    // width: 1000,
   },
   icon: {
     color: "rgba(255, 255, 255, 0.54)",
@@ -29,11 +30,11 @@ export default function TitlebarGridList() {
   const classes = useStyles();
 
   return (
-    <Router>
-      <div className={classes.root}>
-        <GridList cellHeight={500} className={classes.gridList}>
-          <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
-            <h1 style={{ color: "#fff" }}>Movie List</h1>
+    <Container fluid className={classes.root}>
+      <Router>
+        <GridList cellHeight={500} cols={4}>
+          <GridListTile key="Subheader" cols={4} style={{ height: "auto" }}>
+            <h1 style={{ color: "#fff" }}>רשימת סרטים</h1>
           </GridListTile>
           {TestData.map((movie) => (
             <GridListTile
@@ -84,7 +85,7 @@ export default function TitlebarGridList() {
         <Switch>
           <Route path="/MovieDetails" component={MovieDetails}></Route>
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </Container>
   );
 }
