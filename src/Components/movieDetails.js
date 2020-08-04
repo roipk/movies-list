@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Typography } from "@material-ui/core";
 
 class MovieDetails extends React.Component {
+  
   componentDidMount() {
     this.movie = this.props.location.state;
   }
@@ -19,23 +20,30 @@ class MovieDetails extends React.Component {
             <div className="content">
               <Col xs={4}>
                 <div className="image">
-                  <img src={this.state.movie.movie.img} alt="" />
+                  <img src={this.state.movie.movie.imgPath} alt="" />
                 </div>
               </Col>
-              <Col xs={6}>
+              <Col xs={6} dir="rtl">
                 <div className="details">
                   <h1>{this.state.movie.movie.title}</h1>
                   <div className="subDetails">
-                    <span>{this.state.movie.movie.year} | </span>
-                    <span>{this.state.movie.movie.ageLimit} | </span>
-                    <span>{this.state.movie.movie.duration} | </span>
-                    <span>{this.state.movie.movie.genre} </span>
+                    <span>{this.state.movie.movie.releaseDate} | </span>
+                    <span>{this.state.movie.movie.duration} דקות | </span>
+                    {this.state.movie.movie.genres.map((genre, idx) => {
+                      if (idx < this.state.movie.movie.genres.length - 1){
+                        return <span>{genre}, </span>
+                      }
+                      else{
+                        return <span>{genre} </span>
+                      }
+                      
+                    })}
                     <div>
                       <Typography variant="body1" gutterBottom>
                         {this.state.movie.movie.description}
                       </Typography>
                     </div>
-                    <div>
+                    {/* <div>
                       <span>Starring: </span>
                       {this.state.movie.movie.cast.map((author, idx) => {
                         if (idx !== test - 1) {
@@ -44,7 +52,7 @@ class MovieDetails extends React.Component {
                           return <span>{author}</span>;
                         }
                       })}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </Col>
