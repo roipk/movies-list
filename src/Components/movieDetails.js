@@ -3,10 +3,12 @@ import test from "./test.jpg";
 import { Container, Row, Col } from "react-bootstrap";
 import { Typography } from "@material-ui/core";
 
+// Class component which describes the details of a specific movie
 class MovieDetails extends React.Component {
   componentDidMount() {
     this.movie = this.props.location.state;
   }
+  // take the arguments from the props
   state = {
     movie: this.props.location.state,
   };
