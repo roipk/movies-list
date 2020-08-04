@@ -4,9 +4,23 @@ import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
 import TestData from "./TestData";
 import MovieDetails from "./MovieDetails";
 import $ from "jquery";
+import {getMovies} from '../utils/utils';
 
 class MovieList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {movies: []};
+  }
+
   componentDidMount() {
+    let data = []
+    getMovies(data);
+    // setTimeout(function(){this.setState({movies: data})}, 5000);
+    setInterval(
+      () =>this.setState({movies: data}),
+      3000
+    );
+    console.log("DATA", data)
     $("Button").click(function () {
       alert("kshbxjhvbxsjhv");
     });
@@ -27,7 +41,7 @@ class MovieList extends React.Component {
 
         <Router>
           <Row>
-            {TestData.map((movie) => {
+            {this.state.movies.map((movie) => {
               return (
                 <Col
                   style={{
@@ -37,7 +51,7 @@ class MovieList extends React.Component {
                   }}
                 >
                   <img
-                    src={movie.img}
+                    src={movie.imgPath}
                     style={{ width: 400, height: 600 }}
                   ></img>
                   <div
@@ -54,7 +68,7 @@ class MovieList extends React.Component {
                       }}
                     >
                       <h3 style={{ color: "#fff" }}>{movie.title}</h3>
-                      <h5 style={{ color: "#fff" }}>{movie.year}</h5>
+                      <h5 style={{ color: "#fff" }}>{movie.releaseDate}</h5>
                     </div>
                     <div
                       style={{
