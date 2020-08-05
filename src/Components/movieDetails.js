@@ -4,7 +4,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Typography } from "@material-ui/core";
 
 class MovieDetails extends React.Component {
-  
   componentDidMount() {
     this.movie = this.props.location.state;
   }
@@ -30,13 +29,11 @@ class MovieDetails extends React.Component {
                     <span>{this.state.movie.movie.releaseDate} | </span>
                     <span>{this.state.movie.movie.duration} דקות | </span>
                     {this.state.movie.movie.genres.map((genre, idx) => {
-                      if (idx < this.state.movie.movie.genres.length - 1){
-                        return <span>{genre}, </span>
+                      if (idx < this.state.movie.movie.genres.length - 1) {
+                        return <span>{genre}, </span>;
+                      } else {
+                        return <span>{genre} </span>;
                       }
-                      else{
-                        return <span>{genre} </span>
-                      }
-                      
                     })}
                     <div>
                       <Typography variant="body1" gutterBottom>
