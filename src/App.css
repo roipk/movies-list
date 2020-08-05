@@ -55,26 +55,15 @@
   justify-content: center;
   flex-direction: row-reverse;
   width: 100%;
-  /* max-width: 960px; */
   margin: 0 auto;
   padding: 20px;
   margin-right: 10px;
-  /* overflow: hidden; */
   color: white;
 }
-
-/* .movieDetails .content .details {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0px -15px 30px;
-} */
 
 .movieDetails .content img {
   flex: 1 1 50%;
   max-width: 500px;
-  /* margin-left: 150px; */
-  /* padding: 20px; */
-  /* /* margin: 20px; */
 }
 
 .movieDetails .content .details .subDetails {

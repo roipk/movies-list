@@ -1,26 +1,20 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
-import TestData from "./TestData";
 import MovieDetails from "./MovieDetails";
 import $ from "jquery";
-import {getMovies} from '../utils/utils';
+import { getMovies } from "../utils/utils";
 
 class MovieList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {movies: []};
+    this.state = { movies: [] };
   }
 
   componentDidMount() {
-    let data = []
+    let data = [];
     getMovies(data);
-    // setTimeout(function(){this.setState({movies: data})}, 5000);
-    setInterval(
-      () =>this.setState({movies: data}),
-      3000
-    );
-    console.log("DATA", data)
+    setInterval(() => this.setState({ movies: data }), 1000);
     $("Button").click(function () {
       alert("kshbxjhvbxsjhv");
     });

@@ -5,10 +5,11 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import TestData from "./TestData";
 import { Container, Row, Col } from "react-bootstrap";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
 import MovieDetails from "./MovieDetails";
+
+let TestData = [];
 
 const useStyles = makeStyles((theme) => ({
   root: {
