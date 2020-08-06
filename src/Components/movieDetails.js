@@ -1,3 +1,4 @@
+// Imports of libraries and components we used
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Typography } from "@material-ui/core";
@@ -24,18 +25,20 @@ class MovieDetails extends React.Component {
                 </div>
               </Col>
               <Col xs={6} dir="rtl">
-                <div className="details">
+                <div className="details" style={{ textAlign: "right" }}>
                   <h1>{this.state.movie.movie.title}</h1>
                   <div className="subDetails">
-                    <span>{this.state.movie.movie.releaseDate} | </span>
-                    <span>{this.state.movie.movie.duration} דקות | </span>
-                    {this.state.movie.movie.genres.map((genre, idx) => {
-                      if (idx < this.state.movie.movie.genres.length - 1) {
-                        return <span>{genre}, </span>;
-                      } else {
-                        return <span>{genre} </span>;
-                      }
-                    })}
+                    <div style={{ color: "#eb8a90" }}>
+                      <span>{this.state.movie.movie.releaseDate} | </span>
+                      <span>{this.state.movie.movie.duration} דקות | </span>
+                      {this.state.movie.movie.genres.map((genre, idx) => {
+                        if (idx < this.state.movie.movie.genres.length - 1) {
+                          return <span>{genre}, </span>;
+                        } else {
+                          return <span>{genre} </span>;
+                        }
+                      })}
+                    </div>
                     <div>
                       <Typography variant="body1" gutterBottom>
                         {this.state.movie.movie.description}
