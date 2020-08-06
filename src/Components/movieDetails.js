@@ -5,6 +5,7 @@ import { Typography } from "@material-ui/core";
 
 // Class component which describes the details of a specific movie
 class MovieDetails extends React.Component {
+  // take the arguments from the props
   componentDidMount() {
     this.movie = this.props.location.state;
   }
