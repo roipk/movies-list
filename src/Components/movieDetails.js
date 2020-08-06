@@ -1,5 +1,5 @@
+// Imports of libraries and components we used
 import React from "react";
-import test from "./test.jpg";
 import { Container, Row, Col } from "react-bootstrap";
 import { Typography } from "@material-ui/core";
 

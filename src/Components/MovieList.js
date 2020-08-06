@@ -1,3 +1,4 @@
+// Imports of libraries and components we used
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
@@ -10,9 +11,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import MovieOutlinedIcon from "@material-ui/icons/MovieOutlined";
 import Fade from "react-reveal/Fade";
 
+//Class component which shows all the movies we have
 class MovieList extends React.Component {
   constructor(props) {
     super(props);
+    // State initialize
     this.state = {
       movies: [],
       title: "",
@@ -21,20 +24,27 @@ class MovieList extends React.Component {
       yearFilter: false,
       initial: false,
     };
+    //Binds configuration
     this.onClick = this.onClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+  //Function that handles and sets state to the year that got selected
   handleYearChange = (selectedOption) => {
     this.setState({ selectedOption });
-
-    console.log(`Option selected:`, selectedOption);
   };
+
+  //Function that handles and sets state to the movie name from the input
   handleChange(event) {
     this.setState({ title: event.target.value });
   }
+
+  //Functions and processes that will be executed before render
   componentDidMount() {
+    //Data fetching from API
     let data = [];
     getMovies(data);
+
+    //Sorting the movies array by their release date
     setInterval(
       () =>
         this.setState({
@@ -44,6 +54,8 @@ class MovieList extends React.Component {
         }),
       3000
     );
+
+    //Set the "years" state to contain all the release years that are available, delete duplicats & sort in decreasing order
     setInterval(
       () =>
         this.setState({
@@ -62,6 +74,7 @@ class MovieList extends React.Component {
       3500
     );
 
+    //jquery initialization
     let _this = this;
     $(document).on("click", ".selectBtn", function () {
       _this.setState({ yearFilter: true });
@@ -70,12 +83,16 @@ class MovieList extends React.Component {
       _this.setState({ yearFilter: false, selectedOption: null });
     });
   }
+
+  //Function that handles onClick
   onClick(ev) {
     let onClickFn = this.props.onClick;
     onClickFn && onClickFn(ev);
-    //somehow register an event to show the ripple?
   }
+
+  //Render function
   render() {
+    //Opening screen case
     if (!this.state.initial) {
       return (
         <div
@@ -107,6 +124,8 @@ class MovieList extends React.Component {
           </Fade>
         </div>
       );
+
+      //Initialize data case
     } else if (this.state.movies.length < 1) {
       return (
         <div
@@ -126,6 +145,8 @@ class MovieList extends React.Component {
           <CircularProgress style={{ color: "#b3af8f" }} size="7rem" />
         </div>
       );
+
+      //Showing movies data without "release year" filter case
     } else if (!this.state.yearFilter) {
       return (
         <Container
@@ -228,6 +249,7 @@ class MovieList extends React.Component {
                             style={{
                               display: "flex",
                               flexDirection: "column",
+                              textAlign: "right",
                             }}
                           >
                             <h3 style={{ color: "#fff" }}>{movie.title}</h3>
@@ -272,6 +294,8 @@ class MovieList extends React.Component {
           </Router>
         </Container>
       );
+
+      //Showing movies data with "release year" filter case
     } else if (this.state.yearFilter) {
       return (
         <Container
