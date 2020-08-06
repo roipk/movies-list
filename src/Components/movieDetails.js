@@ -16,16 +16,16 @@ class MovieDetails extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Row>
+      <Container class="container">
+        <Row class="row">
           <section className="movieDetails">
             <div className="content">
-              <Col xs={4}>
+              <Col xs={4} class="col">
                 <div className="image">
                   <img src={this.state.movie.movie.imgPath} alt="" />
                 </div>
               </Col>
-              <Col xs={6} dir="rtl">
+              <Col xs={6} dir="rtl" class="col">
                 <div className="details" style={{ textAlign: "right" }}>
                   <h1>{this.state.movie.movie.title}</h1>
                   <div className="subDetails">

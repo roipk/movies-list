@@ -158,6 +158,7 @@ class MovieList extends React.Component {
             justifyContent: "center",
             flexDirection: "column",
           }}
+          class="container"
         >
           <div
             style={{
@@ -221,12 +222,13 @@ class MovieList extends React.Component {
           </div>
 
           <Router>
-            <Row>
+            <Row class="row">
               {this.state.movies
                 .filter((movie) => movie.title.includes(`${this.state.title}`))
                 .map((movie) => {
                   return (
                     <Col
+                      class="col"
                       style={{
                         marginTop: 50,
                         marginBottom: 50,
@@ -299,6 +301,7 @@ class MovieList extends React.Component {
     } else if (this.state.yearFilter) {
       return (
         <Container
+          class="container"
           fluid
           style={{
             backgroundColor: "#496a81",
@@ -358,7 +361,7 @@ class MovieList extends React.Component {
             <Button className="selectBtn2">הצג את כל הסרטים</Button>
           </div>
           <Router>
-            <Row>
+            <Row class="row">
               {this.state.movies
                 .filter((movie) => movie.title.includes(`${this.state.title}`))
                 .filter((movie) =>
@@ -369,6 +372,7 @@ class MovieList extends React.Component {
                 .map((movie) => {
                   return (
                     <Col
+                      class="col"
                       style={{
                         marginTop: 50,
                         marginBottom: 50,
