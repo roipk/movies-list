@@ -7,6 +7,8 @@ import { getMovies } from "../utils/utils";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MovieOutlinedIcon from "@material-ui/icons/MovieOutlined";
+import Fade from "react-reveal/Fade";
 
 class MovieList extends React.Component {
   constructor(props) {
@@ -16,13 +18,15 @@ class MovieList extends React.Component {
       title: "",
       selectedOption: null,
       years: null,
-      yearFilter: "",
+      yearFilter: false,
+      initial: false,
     };
     this.onClick = this.onClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   handleYearChange = (selectedOption) => {
     this.setState({ selectedOption });
+
     console.log(`Option selected:`, selectedOption);
   };
   handleChange(event) {
@@ -31,7 +35,15 @@ class MovieList extends React.Component {
   componentDidMount() {
     let data = [];
     getMovies(data);
-    setInterval(() => this.setState({ movies: data }), 3000);
+    setInterval(
+      () =>
+        this.setState({
+          movies: data.sort(function (a, b) {
+            return parseInt(b.releaseDate) - parseInt(a.releaseDate);
+          }),
+        }),
+      3000
+    );
     setInterval(
       () =>
         this.setState({
@@ -49,10 +61,13 @@ class MovieList extends React.Component {
         }),
       3500
     );
-    $(this.refs.buttonEl).click(function () {
-      //this.setState({ yearFilter: true });
-      console.log("cnkcjndkjncd");
-      alert("jcnskjnfkjn");
+
+    let _this = this;
+    $(document).on("click", ".selectBtn", function () {
+      _this.setState({ yearFilter: true });
+    });
+    $(document).on("click", ".selectBtn2", function () {
+      _this.setState({ yearFilter: false, selectedOption: null });
     });
   }
   onClick(ev) {
@@ -61,11 +76,11 @@ class MovieList extends React.Component {
     //somehow register an event to show the ripple?
   }
   render() {
-    if (this.state.movies.length < 1) {
+    if (!this.state.initial) {
       return (
         <div
           style={{
-            backgroundColor: "#445565",
+            backgroundColor: "#496a81",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -73,63 +88,260 @@ class MovieList extends React.Component {
             height: "100vh",
           }}
         >
-          <h1 style={{ color: "#fff", marginTop: 50 }}>
-            ...רשימת הסרטים נטענת
-          </h1>
-          <CircularProgress color="secondary" />
+          <Fade bottom>
+            <MovieOutlinedIcon style={{ fontSize: 100, color: "#b3af8f" }} />
+          </Fade>
+          <Fade bottom>
+            <h1 style={{ color: "#b3af8f", marginBottom: 50 }}>
+              !ברוכים הבאים למאגר הסרטים
+            </h1>
+          </Fade>
+          <Fade bottom>
+            <Button
+              onClick={() => this.setState({ initial: true })}
+              style={{ color: "#f3dfbf" }}
+              variant="primary"
+            >
+              לכניסה למאגר לחץ כאן
+            </Button>
+          </Fade>
         </div>
       );
-    } else {
+    } else if (this.state.movies.length < 1) {
+      return (
+        <div
+          style={{
+            backgroundColor: "#496a81",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            height: "100vh",
+          }}
+        >
+          <MovieOutlinedIcon style={{ fontSize: 100, color: "#b3af8f" }} />
+          <h1 style={{ color: "#b3af8f", marginBottom: 50 }}>
+            ...רשימת הסרטים נטענת
+          </h1>
+          <CircularProgress style={{ color: "#b3af8f" }} size="7rem" />
+        </div>
+      );
+    } else if (!this.state.yearFilter) {
       return (
         <Container
           fluid
           style={{
-            backgroundColor: "#445565",
+            backgroundColor: "#496a81",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
           }}
         >
-          <h1 style={{ color: "#fff", marginTop: 50 }}>רשימת סרטים</h1>
           <div
             style={{
+              marginTop: 50,
+              display: "flex",
+              flexDirection: "row-reverse",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Fade bottom>
+              <MovieOutlinedIcon style={{ fontSize: 100, color: "#f3dfbf" }} />
+            </Fade>
+            <Fade bottom>
+              <h1 style={{ color: "#f3dfbf", marginRight: 20 }}>רשימת סרטים</h1>
+            </Fade>
+          </div>
+          <Fade bottom>
+            <div
+              style={{
+                marginTop: 30,
+                display: "flex",
+                flexDirection: "row-reverse",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <input
+                style={{ textAlign: "right", width: 500, height: 40 }}
+                placeholder="  ...לחיפוש סרט הקלד את שמו כאן"
+                type="text"
+                value={this.state.title}
+                onChange={this.handleChange}
+              />
+            </div>
+          </Fade>
+
+          <div
+            style={{
+              marginTop: 50,
               display: "flex",
               flexDirection: "row-reverse",
               justifyContent: "space-evenly",
             }}
           >
-            <h3 style={{ color: "#fff", marginLeft: 60 }}>
-              {" "}
-              : לחיפוש סרט הקלד את שמו כאן
-            </h3>
+            <div style={{ marginLeft: 100 }}>
+              <Dropdown
+                options={this.state.years}
+                onChange={this.handleYearChange}
+                value={this.state.selectedOption}
+                placeholder="בחר שנה"
+              />
+            </div>
+            <Button
+              style={{ color: "#f3dfbf" }}
+              variant="primary"
+              disabled={!this.state.selectedOption}
+              className="selectBtn"
+            >
+              חפש לפי שנה
+            </Button>
+          </div>
+
+          <Router>
+            <Row>
+              {this.state.movies
+                .filter((movie) => movie.title.includes(`${this.state.title}`))
+                .map((movie) => {
+                  return (
+                    <Col
+                      style={{
+                        marginTop: 50,
+                        marginBottom: 50,
+                      }}
+                    >
+                      {" "}
+                      <Fade bottom>
+                        <img
+                          src={movie.imgPath}
+                          style={{ width: 400, height: 600 }}
+                        ></img>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row-reverse",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <h3 style={{ color: "#fff" }}>{movie.title}</h3>
+                            <h5 style={{ color: "#fff" }}>
+                              {movie.releaseDate}
+                            </h5>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignSelf: "flex-end",
+                            }}
+                          >
+                            <nav>
+                              <ul>
+                                <li>
+                                  <Link
+                                    to={{
+                                      pathname: "/MovieDetails",
+                                      state: {
+                                        movie,
+                                      },
+                                    }}
+                                  >
+                                    <Button style={{ width: 100, height: 40 }}>
+                                      בחירה
+                                    </Button>
+                                  </Link>
+                                </li>
+                              </ul>
+                            </nav>
+                          </div>
+                        </div>{" "}
+                      </Fade>
+                    </Col>
+                  );
+                })}
+            </Row>
+            <Switch>
+              <Route path="/MovieDetails" component={MovieDetails}></Route>
+            </Switch>
+          </Router>
+        </Container>
+      );
+    } else if (this.state.yearFilter) {
+      return (
+        <Container
+          fluid
+          style={{
+            backgroundColor: "#496a81",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              marginTop: 50,
+              display: "flex",
+              flexDirection: "row-reverse",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MovieOutlinedIcon style={{ fontSize: 100, color: "#f3dfbf" }} />
+
+            <h1 style={{ color: "#f3dfbf", marginRight: 20 }}>רשימת סרטים</h1>
+          </div>
+
+          <div
+            style={{
+              marginTop: 30,
+              display: "flex",
+              flexDirection: "row-reverse",
+              justifyContent: "space-evenly",
+            }}
+          >
             <input
+              style={{ textAlign: "right", width: 500, height: 40 }}
+              placeholder="  ...לחיפוש סרט הקלד את שמו כאן"
               type="text"
               value={this.state.title}
               onChange={this.handleChange}
             />
           </div>
-          {/* <div
+
+          <div
             style={{
+              marginTop: 50,
               display: "flex",
               flexDirection: "row-reverse",
               justifyContent: "space-evenly",
             }}
           >
-            <Dropdown
-              options={this.state.years}
-              onChange={this.handleYearChange}
-              value={this.state.selectedOption}
-              placeholder="בחר שנה"
-            />
+            <div style={{ marginLeft: 100 }}>
+              <Dropdown
+                options={this.state.years}
+                onChange={this.handleYearChange}
+                value={this.state.selectedOption}
+                placeholder="בחר שנה"
+              />
+            </div>
+            <Button className="selectBtn2">הצג את כל הסרטים</Button>
           </div>
-          <button ref="buttonEl" onClick={this.onClick.bind(this)}>
-            חפש לפי שנה
-          </button> */}
           <Router>
             <Row>
               {this.state.movies
                 .filter((movie) => movie.title.includes(`${this.state.title}`))
+                .filter((movie) =>
+                  movie.releaseDate.includes(
+                    `${this.state.selectedOption.value}`
+                  )
+                )
                 .map((movie) => {
                   return (
                     <Col
@@ -145,7 +357,7 @@ class MovieList extends React.Component {
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "row",
+                          flexDirection: "reverse-row",
                           justifyContent: "space-evenly",
                         }}
                       >
